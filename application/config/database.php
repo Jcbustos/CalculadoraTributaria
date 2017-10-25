@@ -48,13 +48,13 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = 'root';
-$db['default']['database'] = 'calculadora';
-//$db['default']['database'] = 'whooopro_calculadora';
-//$db['default']['username'] = 'whooopro_calcula';
-//$db['default']['password'] = 'eaMiEFg~~T_J';
+$db['default']['hostname'] = 'localhost:3306';
+$db['default']['username'] = 'lydorg_juan';
+$db['default']['password'] = 'alcantara498';
+$db['default']['database'] = 'lydorg_calculadora';
+//$db['default']['database'] = 'calculadora';
+//$db['default']['username'] = 'root';
+//$db['default']['password'] = 'root';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;

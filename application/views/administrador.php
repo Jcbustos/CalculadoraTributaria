@@ -5,6 +5,7 @@
 		<title>Calculadora tributaria</title>
 		<link rel="stylesheet" href="<?=base_url()?>assets/css/bootstrap.min.css">
 		<link rel="stylesheet" href="<?=base_url()?>assets/css/bootstrap-theme.min.css">
+                <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
 		<script src="http://code.jquery.com/jquery.js"></script>
 		<script src="<?=base_url()?>assets/js/bootstrap.min.js"></script>
 		<style>
@@ -18,11 +19,33 @@
 			.col-md-3{
 				margin-bottom: 5px;
 			}
+			.multi-select-option{
+				width: 45% !important;
+				float:left;
+			}
 		</style>
+		
+		 <script>
+			$(document).on('ready',function(){
+				validar();
+			}
+			
+			function validar(){
+				$.post('<?=base_url()?>administrator/validar',
+				{
+					usuario:'<?=$this->session->userdata('usuario')?>',
+					password:'<?=$this->session->userdata('password')?>'
+				},function(datos){
+					if(!datos.response){
+						location.href='<?=base_url()?>administrator';
+					}
+				},'json');
+			}
+		 </script>
 	</head>
 	<body>
 		<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
-		  <div class="container">
+		  <div class="container navcontainer">
 		    <!-- Brand and toggle get grouped for better mobile display -->
 		    <div class="navbar-header">
 		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -38,7 +61,7 @@
 		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		      <ul class="nav navbar-nav">
 		        <li class="active"><a href="<?=base_url()?>administrator">Home</a></li>
-		        <!--li><a href="<?=base_url()?>administrator/auxiliares">Auxiliares</a></li-->
+		        <li><a href="<?=base_url()?>administrator/salir">Salir</a></li>
 		      </ul>
 		    </div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
@@ -671,14 +694,14 @@
 								<thead>
 									<tr>
 										<th>Desde</th>
-										<th>Hasta</th>
+										<th>Hasta (0 para infinito)</th>
 										<th>TasaMG</th>
 										<th>Exento</th>
 										<th>Tasa Media</th>
 									</tr>
 								</thead>
 								<tbody>
-									<?php for ($i=0; $i < 8; $i++) { ?>
+									<?php for ($i=0; $i < 7; $i++) { ?>
 										<tr>
 											<?php 
 												$datos['nombre'] = 'desde'.$i; 
@@ -689,7 +712,13 @@
 													$valor = '';
 												}
 											?>
-											<td><input type="text" name="desde<?=$i?>" value="<?=$valor?>"></td>
+											<td>
+												<select class="multi-select-option" name="operacionDesde<?=$i?>">
+													<option value=">" selected="selected">></option>
+													<option value=">=">>=</option>
+												</select>
+												<input class="multi-select-input" style="float: right;width: 50% !important;" type="text" name="desde<?=$i?>" value="<?=$valor?>">
+											</td>
 											<?php 
 												$datos['nombre'] = 'hasta'.$i; 
 												$valor = $this->model_datos->getWhere($datos);
@@ -699,7 +728,14 @@
 													$valor = '';
 												}
 											?>
-											<td><input type="text" name="hasta<?=$i?>" value="<?=$valor?>"></td>
+											<td>
+
+												<select class="multi-select-option" name="operacionHasta<?=$i?>">
+													<option value="<=" selected="selected"><=</option>
+													<option value="<"><</option>
+												</select>
+												<input type="text" style="float: right;width: 50% !important;" name="hasta<?=$i?>" value="<?=$valor?>">
+											</td>
 											<?php 
 												$datos['nombre'] = 'tasaMG'.$i; 
 												$valor = $this->model_datos->getWhere($datos);

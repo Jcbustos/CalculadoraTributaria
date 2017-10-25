@@ -31,10 +31,17 @@ class Home extends CI_Controller
 		$B15 = str_replace(".", "", $this->input->post('dfl2'));
 
 		//Variables calculadas
+		$Q2 = $this->rentaImponible($B2);
+		$B2 = $this->rentaBruta($B2);
+		//echo $B2;
 		$B33 = $this->afp($B2);
+
 		$B34 = $this->isapre($B2);
 		$B35 = $this->seguroCesantia($B2);
-		$Q2 = $this->rentaImponible($B2,$B33, $B34, $B35);
+		//$Q2 = $this->rentaImponible($B2,$B33, $B34, $B35);
+		//echo $Q2;
+		//echo "<br>";
+		//echo $Q02;
 		$B21 = $this->renta($Q2);
 		$B24 = $this->ILA($C8, $C9, $C10);
 		//echo "B24 = ".$B24."<br>";
@@ -52,10 +59,27 @@ class Home extends CI_Controller
 		$B22 = $this->iva($Q3,$B3,$SUMA);
 		$B23 = $this->arancel($Q3, $B3, $B22, $SUMA);
 
-		$B37 = $this->totalImpuestos($B2,$B3,$SUMA,$B33, $B34, $B35);
+		//$B37 = $this->totalImpuestos($B2,$B3,$SUMA,$B33, $B34, $B35);
+		$B37 = $B21+$B22+$B23+$B24+$B25+$B26+$B27+$B28;
 		$B38 = $this->totalAnual($B37);
-		$C39 = $this->totalImpuestoSegSocial($B37, $B33, $B34, $B35);
+		//$C39 = $this->totalImpuestoSegSocial($B37, $B33, $B34, $B35);
+		$C39 = $B37+$B33+$B34+$B35;
 		$C40 = $this->totalImpuestoSegSocialAnual($C39);
+		
+		//Validaciones
+		$B21 = $B21>0?$B21:0;
+		$B22 = $B22>0?$B22:0;
+		$B23 = $B23>0?$B23:0;
+		$B24 = $B24>0?$B24:0;
+		$B25 = $B25>0?$B25:0;
+		$B26 = $B26>0?$B26:0;
+		$B27 = $B27>0?$B27:0;
+		$B28 = $B28>0?$B28:0;
+		
+		$B37 = $B37>0?$B37:0;
+		$B38 = $B38>0?$B38:0;
+		$C39 = $C39>0?$C39:0;
+		$C40 = $C40>0?$C40:0;
 
 		//Impuestos
 		$data['renta'] = number_format($B21,0,',','.');
@@ -71,6 +95,8 @@ class Home extends CI_Controller
 		$data['afp'] = number_format($B33,0,',','.');
 		$data['fonasa'] = number_format($B34,0,',','.');
 		$data['cesantia'] = number_format($B35,0,',','.');
+		
+		//Finales
 		$data['impuestos'] = number_format($B37,0,',','.');
 		$data['anual'] = number_format($B38,0,',','.');
 		$data['segSocial'] = number_format($C39,0,',','.');
@@ -79,7 +105,7 @@ class Home extends CI_Controller
 	}
 
 	function totalImpuestos($B2 = 0,$B3 = 0,$SUMA = 0, $B33 = 0, $B34 = 0, $B35 = 0){
-		$Q2 = $this->rentaImponible($B2,$B33, $B34, $B35);
+		$Q2 = $B2;
 		$B21 = $this->renta($Q2);
 		$Q3 = $Q2-$B21;
 		$B22 = $this->iva($Q3,$B3,$SUMA);
@@ -87,8 +113,127 @@ class Home extends CI_Controller
 		return $B21+$B22+$B23+$SUMA;
 	}
 
-	private function rentaImponible($B2 = 0,$B33 = 0, $B34 = 0, $B35 = 0){
-		return $B2-$B33-$B34-$B35;
+	private function rentaBruta($B2 = 0){
+		$datos = array('estado' => 1);
+		$total = 0;
+		$datos['nombre'] = 'utm'; 
+		$valor = $this->model_datos->getWhere($datos);
+		if($valor){
+			$f3 = str_replace(",", ".", $valor[0]->valor);
+		}else{
+			$f3 = 0;
+		}
+		$I10 = $this->tasaAFP()/100;
+		$SUMA = $I10 + (0.06/100) + 0.07;
+		for ($i=0; $i < 7; $i++) { 
+			//Recojo valores
+		 	$datos['nombre'] = 'desde'.$i;
+			$valor = $this->model_datos->getWhere($datos);
+			if($valor){
+				$hn = str_replace(",", ".", $valor[0]->valor);
+			}else{
+				$hn = 0;
+			}
+			
+			$datos['nombre'] = 'hasta'.$i; 
+			$valor = $this->model_datos->getWhere($datos);
+			if($valor){
+				$in = str_replace(",", ".", $valor[0]->valor);
+			}else{
+				$in = 0;
+			}
+			
+			$datos['nombre'] = 'tasaMG'.$i; 
+			$valor = $this->model_datos->getWhere($datos);
+			if($valor){
+				$jn = str_replace(",", ".", $valor[0]->valor);
+			}else{
+				$jn = 0;
+			}
+			
+			$datos['nombre'] = 'exento'.$i; 
+			$valor = $this->model_datos->getWhere($datos);
+			if($valor){
+				$kn = str_replace(",", ".", $valor[0]->valor);
+			}else{
+				$kn = 0;
+			}
+
+			$datos['nombre'] = 'operacionDesde'.$i; 
+			$op_desde = $this->model_datos->getWhere($datos);
+			$datos['nombre'] = 'operacionHasta'.$i; 
+			$op_hasta = $this->model_datos->getWhere($datos);
+
+			//Calculo
+			$condition = "return ".$B2." ".$op_desde[0]->valor." ".$hn*$f3." && (".$B2." ".$op_hasta[0]->valor." ".$in*$f3." || ".$in." == 0);";
+			$comp = eval($condition);
+			if($comp){
+				//echo (1-$jn)*(1-$SUMA);
+				$total += round(($B2-$kn*$f3)/((1-$jn)*(1-$SUMA)));
+			}
+		}
+		//echo $total;
+		return $total;
+	}
+
+
+	private function rentaImponible($B2 = 0){
+		$datos = array('estado' => 1);
+		$total = 0;
+		$datos['nombre'] = 'utm'; 
+		$valor = $this->model_datos->getWhere($datos);
+		if($valor){
+			$f3 = str_replace(",", ".", $valor[0]->valor);
+		}else{
+			$f3 = 0;
+		}
+		for ($i=0; $i < 7; $i++) { 
+			//Recojo valores
+		 	$datos['nombre'] = 'desde'.$i;
+			$valor = $this->model_datos->getWhere($datos);
+			if($valor){
+				$hn = str_replace(",", ".", $valor[0]->valor);
+			}else{
+				$hn = 0;
+			}
+			
+			$datos['nombre'] = 'hasta'.$i; 
+			$valor = $this->model_datos->getWhere($datos);
+			if($valor){
+				$in = str_replace(",", ".", $valor[0]->valor);
+			}else{
+				$in = 0;
+			}
+			
+			$datos['nombre'] = 'tasaMG'.$i; 
+			$valor = $this->model_datos->getWhere($datos);
+			if($valor){
+				$jn = str_replace(",", ".", $valor[0]->valor);
+			}else{
+				$jn = 0;
+			}
+			
+			$datos['nombre'] = 'exento'.$i; 
+			$valor = $this->model_datos->getWhere($datos);
+			if($valor){
+				$kn = str_replace(",", ".", $valor[0]->valor);
+			}else{
+				$kn = 0;
+			}
+
+			$datos['nombre'] = 'operacionDesde'.$i; 
+			$op_desde = $this->model_datos->getWhere($datos);
+			$datos['nombre'] = 'operacionHasta'.$i; 
+			$op_hasta = $this->model_datos->getWhere($datos);
+
+			//Calculo
+			$condition = "return ".$B2." ".$op_desde[0]->valor." ".$hn*$f3." && (".$B2." ".$op_hasta[0]->valor." ".$in*$f3." || ".$in." == 0);";
+			$comp = eval($condition);
+			if($comp){
+				return round(($B2-($kn*$f3))/(1-$jn));
+			}
+		}
+		return 0;
 	}
 
 	function totalImpuestoSegSocialAnual($C39 = 0){
@@ -179,10 +324,11 @@ class Home extends CI_Controller
 			$F10 = 0;
 		}
 		$I10 = $this->tasaAFP()/100;
+		//echo $I10; 0.1148
 		if($B2 < $F11*$F2){
 			return $I10*$B2;
 		}else{
-			return $F11*$F2*$I10;
+			return ($F11*$F2)*$I10;
 		}
 	}
 
@@ -224,7 +370,7 @@ class Home extends CI_Controller
 
 	function contribuciones($B13 = '',$B15 = 0,$B2 = 0,$B14 = 0,$Q2 = 0){
 		$Q7 = $this->auxiliarContribuciones($B13,$B14,$B2,$Q2);
-		if($B15 < 2){
+		if($B15 != "2"){
 			return $Q7;
 		}else{
 			return $Q7*0.5;
@@ -264,6 +410,7 @@ class Home extends CI_Controller
 			if($B14<$J25 && $B14>0){
 				$var += ($B14-$J24)*$K25;
 			}
+			//echo $var;
 
 			//L26
 			$L26 = 0;
@@ -581,7 +728,7 @@ class Home extends CI_Controller
 		}else{
 			$f3 = 0;
 		}
-		for ($i=0; $i < 8; $i++) { 
+		for ($i=0; $i < 7; $i++) { 
 			//Recojo valores
 		 	$datos['nombre'] = 'desde'.$i; 
 			$valor = $this->model_datos->getWhere($datos);
@@ -615,8 +762,15 @@ class Home extends CI_Controller
 				$kn = 0;
 			}
 
+			$datos['nombre'] = 'operacionDesde'.$i; 
+			$op_desde = $this->model_datos->getWhere($datos);
+			$datos['nombre'] = 'operacionHasta'.$i; 
+			$op_hasta = $this->model_datos->getWhere($datos);
+
 			//Calculo
-			if($q2 > $hn*$f3  &&  ($q2 <= $in*$f3 || $in == 0)){
+			$condition = "return ".$q2." ".$op_desde[0]->valor." ".$hn*$f3." && (".$q2." ".$op_hasta[0]->valor." ".$in*$f3." || ".$in." == 0);";
+			$comp = eval($condition);
+			if($comp){
 				$total += $jn*$q2-$kn*$f3;
 			}
 		}

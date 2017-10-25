@@ -5,6 +5,7 @@
 		<title>Calculadora tributaria</title>
 		<link rel="stylesheet" href="<?=base_url()?>assets/css/bootstrap.min.css">
 		<link rel="stylesheet" href="<?=base_url()?>assets/css/bootstrap-theme.min.css">
+                <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
 		<script src="http://code.jquery.com/jquery.js"></script>
 		<script src="<?=base_url()?>assets/js/bootstrap.min.js"></script>
 		<style>

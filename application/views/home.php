@@ -6,6 +6,7 @@
 		<title>Calculadora tributaria</title>
 		<link rel="stylesheet" href="<?=base_url()?>assets/css/bootstrap.min.css">
 		<link rel="stylesheet" href="<?=base_url()?>assets/css/bootstrap-theme.min.css">
+                <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
 		<script src="http://code.jquery.com/jquery.js"></script>
 		<script src="<?=base_url()?>assets/js/bootstrap.min.js"></script>
 		<style>
@@ -72,17 +73,17 @@
 		</script>
 	</head>
 	<body>
-		<img src="<?=base_url()?>assets/img/banner.jpg" width="100%" class="banner" alt="">
 		<div class="container">
+                    <img src="<?=base_url()?>assets/img/banner.jpg" class="banner" alt="">
 			<div class="span12">
 				<form action="<?=base_url()?>home/calcular" method="post">
 				<div class="row">
 					<div class="col-md-12">
 						<hr>
-						<h4>Ingresos</h4>
+						<span class="ingresosicon"></span><h4>Ingresos</h4>
 					</div>
  					<div class="col-md-6 clearLeft">
-						<label for="renta">¿Cuál es tu sueldo bruto mensual?:</label>
+						<label for="renta">¿Cuál es tu sueldo líquido mensual?:</label>
 					</div>
 					<div class="col-md-6 clear">
 						<input type="text" placeholder="$" name="renta" id="renta">
@@ -95,7 +96,7 @@
 					</div>
 					<div class="col-md-12 clear">
 						<hr>
-						<h4>Vivienda</h4>
+						<span class="viviendaicon"></span><h4>Vivienda</h4>
 					</div>
 					<div class="col-md-6 clearLeft">
 						<label for="conoceValor">¿Conoces el valor de tu vivienda? (propia o arrendada):</label>
@@ -114,7 +115,7 @@
 						<input type="text" placeholder="$" name="valorVivienda">
 					</div>
 					<div class="col-md-6 clearLeft">
-						<label for="dfl2">¿Sabes si tu vivienda es DFL2? :</label>
+						<label for="dfl2">¿Tu vivienda es DFL2? :</label>
 					</div>
 					<div class="col-md-6 clear">
 						<select id="dfl2" name="dfl2">
@@ -126,7 +127,7 @@
 					</div>
 					<div class="col-md-12 clear">
 						<hr>
-						<h4>Combustibles</h4>
+						<span class="combustibleicon"></span><h4>Combustibles</h4>
 					</div>
 					<div class="col-md-6 clearLeft">
 						<label for="bencina">¿Cuánto gastas mensualmente en bencina?:</label>
@@ -142,7 +143,7 @@
 					</div>
 					<div class="col-md-12 clear">
 						<hr>
-						<h4>Cigarros</h4>
+						<span class="cigarrosicon"></span><h4>Cigarros</h4>
 					</div>
  					<div class="col-md-6 clearLeft">
 						<label for="fumas">¿Cuántas cajetillas fumas en una semana? :</label>
@@ -168,7 +169,7 @@
 					</div>
 					<div class="col-md-12 clear">
 						<hr>
-						<h4>Bebestibles</h4>
+						<span class="bebestiblesicon"></span><h4>Bebestibles</h4>
 					</div>
 					<div class="col-md-6 clearLeft">
 						<label for="vino">¿En una semana, cuántas copas de vino tomas?:</label>
@@ -274,7 +275,17 @@
 				</form>
 			</div>
 		</div>
-                <script>
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-16963493-36', 'auto');
+		  ga('send', 'pageview');
+
+		</script>
+                <!--script>
                   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -283,6 +294,6 @@
                   ga('create', 'UA-16963493-14', 'whooohq.net');
                   ga('send', 'pageview');
 
-                </script>
+                </script-->
 	</body>
 </html>

@@ -6,6 +6,7 @@
 		<title>Calculadora tributaria</title>
 		<link rel="stylesheet" href="<?=base_url()?>assets/css/bootstrap.min.css">
 		<link rel="stylesheet" href="<?=base_url()?>assets/css/bootstrap-theme.min.css">
+                <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
 		<script src="http://code.jquery.com/jquery.js"></script>
 		<script src="<?=base_url()?>assets/js/bootstrap.min.js"></script>
 		<style>
@@ -40,9 +41,9 @@
 			}
 		</style>
 	</head>
-	<body>
-		<img src="<?=base_url()?>assets/img/banner.jpg" width="100%" class="banner" alt="">
-		<div class="container">
+	<body class="resultadospage">
+		<div class="container maincontainer">
+                    <img src="<?=base_url()?>assets/img/banner.jpg" class="banner" alt="">
 			<div class="span12">
 				<div class="row">
 					<div class="col-md-12 clearLeft">
@@ -122,49 +123,51 @@
 					<div class="col-md-3 clear">
 						<input type="text" placeholder="$" name="fonasa" id="fonasa" readonly value="<?=$fonasa?>">
 					</div>
-
-					<div class="col-md-12 clearLeft">
-						<hr>
-						<h2 class="tituloDestacado">Impuesto</h2>
-					</div>
- 					<div class="col-md-3 clearLeft">
-						<label for="impuestos">Pago total de impuestos mensuales:</label>
-					</div>
-					<div class="col-md-3">
-						<input type="text" placeholder="$" name="impuestos" id="impuestos" readonly value="<?=$impuestos?>">
-					</div>
- 					<div class="col-md-3">
-						<label for="anual">Pago total de impuestos anuales:</label>
-					</div>
-					<div class="col-md-3 clear">
-						<input type="text" placeholder="$" name="anual" id="anual" readonly value="<?=$anual?>">
-					</div>
- 					<div class="col-md-3 clearLeft">
-						<label for="segSocial">Pago total de impuestos + previsión y salud mensual:</label>
-					</div>
-					<div class="col-md-3">
-						<input type="text" placeholder="$" name="segSocial" id="segSocial" readonly value="<?=$segSocial?>">
-					</div>
- 					<div class="col-md-3">
-						<label for="segSocialAnual">Pago total de impuestos + previsión y salud anual:</label>
-					</div>
-					<div class="col-md-3 clear">
-						<input type="text" placeholder="$" name="segSocialAnual" id="segSocialAnual" readonly value="<?=$segSocialAnual?>">
-					</div>
-					<div class="col-md-12">
-					</div>
-					<div class="col-md-12">
-					</div>
-					<div class="col-md-12">
-					</div>
-					<div class="col-md-3">
-					</div>
-					<div class="col-md-3">
-						<input type="button" class="btn btn-warning" value="Volver" onclick="location.href='<?=base_url()?>';">
-					</div>
-					<div class="col-md-3">
-						<input type="button" class="btn btn-info" value="Imprimir" onclick="window.print();">
-					</div>
+                                        <div class="divclear"></div>
+					<div class="impuestoaqui">
+                                            <div class="col-md-12 clearLeft">
+                                                <hr>
+                                                <h2 class="tituloDestacado">Impuesto</h2>
+                                            </div>
+                                                                 <div class="col-md-3 clearLeft">
+                                                <label for="impuestos">Pago total de impuestos mensuales:</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="text" placeholder="$" name="impuestos" id="impuestos" readonly value="<?=$impuestos?>">
+                                            </div>
+                                                                 <div class="col-md-3">
+                                                <label for="anual">Pago total de impuestos anuales:</label>
+                                            </div>
+                                            <div class="col-md-3 clear">
+                                                <input type="text" placeholder="$" name="anual" id="anual" readonly value="<?=$anual?>">
+                                            </div>
+                                                                 <div class="col-md-3 clearLeft">
+                                                <label for="segSocial">Pago total de impuestos + previsión y salud mensual:</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="text" placeholder="$" name="segSocial" id="segSocial" readonly value="<?=$segSocial?>">
+                                            </div>
+                                                                 <div class="col-md-3">
+                                                <label for="segSocialAnual">Pago total de impuestos + previsión y salud anual:</label>
+                                            </div>
+                                            <div class="col-md-3 clear">
+                                                <input type="text" placeholder="$" name="segSocialAnual" id="segSocialAnual" readonly value="<?=$segSocialAnual?>">
+                                            </div>
+                                            <!--<div class="col-md-12">
+                                            </div>
+                                            <div class="col-md-12">
+                                            </div>
+                                            <div class="col-md-12">
+                                            </div>
+                                            <div class="col-md-3">
+                                            </div>-->
+                                            <div class="col-md-3">
+                                                <input type="button" class="btn btn-info" value="Volver" onclick="location.href='<?=base_url()?>';">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="button" class="btn btn-info" value="Imprimir" onclick="window.print();">
+                                            </div>
+                                        </div>
 
 				</div>
 			</div>
